@@ -1,0 +1,65 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.logitravel</groupId>
+  <artifactId>showcase.hotels</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>showcase.hotels</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <jar.local.dir>${project.basedir}/target</jar.local.dir>
+    <jar.local.file>${project.artifactId}-${project.version}-jar-with-dependencies.${project.packaging}</jar.local.file>    
+  </properties>
+
+  <repositories>
+      <repository>
+          <id>github-releases</id>
+          <url>http://oss.sonatype.org/content/repositories/github-releases/</url>
+      </repository>
+      <repository>
+          <id>clojars.org</id>
+          <url>http://clojars.org/repo</url>
+      </repository>
+  </repositories>  
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+    	<groupId>org.apache.storm</groupId>
+    	<artifactId>storm-core</artifactId>
+    	<scope>provided</scope>
+    </dependency>
+    <dependency>
+    	<groupId>org.mongodb</groupId>
+    	<artifactId>mongo-java-driver</artifactId>
+    </dependency>
+  </dependencies>
+  <dependencyManagement>
+  	<dependencies>
+  		<dependency>
+  			<groupId>org.apache.storm</groupId>
+  			<artifactId>storm-core</artifactId>
+  			<version>0.9.5</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>junit</groupId>
+  			<artifactId>junit</artifactId>
+  			<version>4.8.1</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>org.mongodb</groupId>
+  			<artifactId>mongo-java-driver</artifactId>
+  			<version>2.11.2</version>
+  		</dependency>
+  	</dependencies>
+  </dependencyManagement>
+</project>
