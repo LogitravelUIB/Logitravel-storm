@@ -1,5 +1,7 @@
 package com.logitravel.showcase.hotels;
 
+import com.logitravel.showcase.hotels.spouts.PricesQueue;
+
 import backtype.storm.Config;
 import backtype.storm.LocalCluster;
 import backtype.storm.StormSubmitter;
@@ -8,15 +10,14 @@ import backtype.storm.generated.InvalidTopologyException;
 import backtype.storm.topology.TopologyBuilder;
 import backtype.storm.utils.Utils;
 
-/**
- * Hello world!
- *
- */
 public class Topology 
 {
     public static void main( String[] args )
     {
         TopologyBuilder builder = new TopologyBuilder();
+        
+        // Set the spout in the topology
+        builder.setSpout("queue", new PricesQueue());
         
         // TODO: Build your topology here
 		

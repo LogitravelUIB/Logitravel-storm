@@ -62,4 +62,45 @@
   		</dependency>
   	</dependencies>
   </dependencyManagement>
+  <build>
+      <sourceDirectory>src/main/java</sourceDirectory>
+      <resources>
+          <resource>
+              <directory>src/main/resources</directory>
+              <filtering>true</filtering>
+          </resource>
+      </resources>
+      <filters>
+          <filter>src/main/resources/topology.properties</filter>            
+      </filters>
+      <plugins>
+          <plugin>
+              <artifactId>maven-assembly-plugin</artifactId>
+              <configuration>
+                  <descriptorRefs>
+                      <descriptorRef>jar-with-dependencies</descriptorRef>
+                  </descriptorRefs>
+                  <archive>
+                      <manifest>
+                          <mainClass>elastic.stats.packages.Topology</mainClass>
+                      </manifest>
+                  </archive>
+              </configuration>
+              <executions>
+                  <execution>
+                      <id>make-assembly</id>
+                      <phase>package</phase>
+                      <goals>
+                          <goal>single</goal>
+                      </goals>
+                  </execution>
+              </executions>
+          </plugin>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <version>2.3.2</version>
+          </plugin>		            
+      </plugins>        
+  </build>  
 </project>
