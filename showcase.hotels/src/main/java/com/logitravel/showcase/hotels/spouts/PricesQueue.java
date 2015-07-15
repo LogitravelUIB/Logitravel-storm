@@ -78,6 +78,6 @@ public class PricesQueue extends BaseRichSpout {
 	}
 
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
-		declarer.declare(new Fields("document"));
+		declarer.declare(new Fields("price"));
 	}
 }

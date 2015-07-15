@@ -1,5 +1,6 @@
 package com.logitravel.showcase.hotels;
 
+import com.logitravel.showcase.hotels.bolts.BestCityPrice;
 import com.logitravel.showcase.hotels.spouts.PricesQueue;
 
 import backtype.storm.Config;
@@ -19,8 +20,10 @@ public class Topology
         // Set the spout in the topology
         builder.setSpout("queue", new PricesQueue());
         
-        // TODO: Build your topology here
-		
+        // Build your topology here
+		builder.setBolt("bestCityPrice", new BestCityPrice())
+			.shuffleGrouping("queue");
+        
 		Config conf = new Config();
         if(args!=null && args.length > 0) {
             conf.setNumWorkers(3);
