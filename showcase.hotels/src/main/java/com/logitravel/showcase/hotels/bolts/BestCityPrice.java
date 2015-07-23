@@ -30,12 +30,44 @@ public class BestCityPrice extends BaseRichBolt {
 		
 		// Given the city in the price object being processed,
 		// extract from Mongo the best price saved for that city
+		int city = price.getInt("City");
+		BasicDBObject query = new BasicDBObject("_id", city);
 		
-		// If there is no price saved yet in Mongo for that city, save 
-		// the current one
+		BasicDBObject result = (BasicDBObject) 
+				this.bestPriceCollection.findOne(query);
 		
-		// If the price saved in Mongo is not as popular
-		// as the price we are processing, replace it
+		if(result == null){
+			
+			// If there is no price saved yet in Mongo for that city, save 
+			// the current one
+			BasicDBObject newDoc = new BasicDBObject("_id", city);
+			newDoc.put("Popularity", price.getInt("Popularity"));
+			newDoc.put("Name", price.getString("Name"));
+			newDoc.put("SearchDate", price.getDate("SearchDate"));
+			newDoc.put("Category", price.getInt("Category"));
+			newDoc.put("Board", price.getString("Board"));
+			newDoc.put("Price", Double.parseDouble(price.getString("Price")));
+			this.bestPriceCollection.save(newDoc);
+		}
+		else{
+			
+			// If the price saved in Mongo is not as popular
+			// as the price we are processing, replace it
+			if(price.getInt("Popularity") > result.getInt("Popularity")){
+				result.put("Popularity", price.getInt("Popularity"));
+				result.put("Name", price.getString("Name"));
+				result.put("SearchDate", price.getDate("SearchDate"));
+				this.bestPriceCollection.save(result);
+			}
+			
+			if(price.getDate("SearchDate").after(result.getDate("SearchDate"))){
+				
+			}
+		}
+		
+
+		
+
 		
 		// If they have the same popularity, save in Mongo the most
 		// recent price
