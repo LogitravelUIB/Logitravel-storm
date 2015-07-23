@@ -1,6 +1,7 @@
 package com.logitravel.showcase.hotels.bolts;
 
 import java.net.UnknownHostException;
+import java.util.Date;
 import java.util.Map;
 
 import com.logitravel.showcase.hotels.ConfigurationManager;
@@ -39,23 +40,34 @@ public class BestCityPrice extends BaseRichBolt {
 			updateCurrentInformation(price, newDoc);
 		}
 		else{
+			int currentPricePopularity = price.getInt("Popularity");
+			int savedPricePopularity = result.getInt("Popularity");
+			
+			Date currentPriceDate = price.getDate("SearchDate");
+			Date savedPriceDate = result.getDate("SearchDate");
+			
+			double currentPriceAmount = price.getDouble("Price");
+			double savedPriceAmount = result.getDouble("Price");
 			
 			// If the price saved in Mongo is not as popular
 			// as the price we are processing, replace it
-			if(price.getInt("Popularity") > result.getInt("Popularity")){
+			if(currentPricePopularity > savedPricePopularity){
 				updateCurrentInformation(price, result);				
-			}
-			
-			// If they have the same popularity, save in Mongo the most
-			// recent price			
-			if(price.getDate("SearchDate").after(result.getDate("SearchDate"))){
-				updateCurrentInformation(price, result);
-			}
-			
-			// If both prices have the same popularity and belong to the
-			// same search, save the cheapest in Mongo
-			if(price.getDouble("Price") < result.getDouble("Price")){
-				updateCurrentInformation(price, result);
+			}						
+			else if(currentPricePopularity == savedPricePopularity){
+				if(currentPriceDate.after(savedPriceDate)){
+					
+					// If they have the same popularity, save in Mongo the most
+					// recent price
+					updateCurrentInformation(price, result);
+				}
+				else if(currentPriceDate.equals(savedPriceDate)
+						&& currentPriceAmount < savedPriceAmount){
+					
+					// If both prices have the same popularity and belong to the
+					// same search, save the cheapest in Mongo
+					updateCurrentInformation(price, result);
+				}
 			}
 		}
 	}
